@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ticket pour :  {% endblock %}
+
+{% block body %}
+
+    <ul>
+        {% for ticket in arrayTicket %}
+        <li>Nom de l'évenement : {{ ticket.event_name }}</li>
+        <li>Description de l'évenement : {{ ticket.event_description }}</li>
+        <li>Date de l'évenemment : {{ ticket.event_date }}</li>
+        <li>Prix d'achat du ticket : {{ ticket.bought_at_price }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ form(propositionSubmissionForm) }}
+
+{% endblock %}

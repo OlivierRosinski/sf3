@@ -10,13 +10,14 @@ use Tiquette\Domain\Ticket;
 
 class TicketFactory
 {
-    public function fromTicketSubmission(TicketSubmission $ticketSubmission): Ticket
+    public function fromTicketSubmission(TicketSubmission $ticketSubmission,$idSeller): Ticket
     {
         return Ticket::submit(
             $ticketSubmission->eventName,
             \DateTimeImmutable::createFromMutable($ticketSubmission->eventDate),
             $ticketSubmission->eventDescription,
-            0
+            0,
+            $idSeller
         );
     }
 }

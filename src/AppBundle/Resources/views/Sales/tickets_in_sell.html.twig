@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des tickets en vente{% endblock %}
+
+{% block body %}
+    {% for ticket in tickets %}
+        <table style="width:100%">
+            <tr>
+                <th>Nom de l'évenemment</th>
+            </tr>
+            <tr>
+                <td><a href="{{ path('show_ticket',{ 'idTicket' : ticket.idTicket }) }}" method="post">{{ ticket.eventName }}</a></td>
+            </tr>
+        </table>
+    {% endfor %}
+{% endblock %}

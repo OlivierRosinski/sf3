@@ -20,15 +20,32 @@ class DbalTicketRepository implements TicketRepository
 
     public function save(Ticket $ticket): void
     {
-        $data = [
+        $query = <<<SQL
+INSERT INTO tickets
+    (idTicket, event_name, event_description, event_date, bought_at_price, price_currency, idSeller, isAccepted)
+VALUES
+    (:idTicket, :event_name, :event_description, :event_date, :bought_at_price, :price_currency, :idSeller, :isAccepted)
+;
+SQL;
+
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute([
+            'idTicket' => $ticket->getIdTicket(),
             'event_name' => $ticket->getEventName(),
             'event_description' => $ticket->getEventDescription(),
             'event_date' => $ticket->getEventDate()->format('Y-m-d\TH:i:00'),
             'bought_at_price' => $ticket->getBoughtAtPrice(),
             'price_currency' => 'EUR',
-        ];
+            'idSeller' => $ticket->getIdSeller(),
+            'isAccepted' => 0
+        ]);
 
-        $this->connection->insert('tickets', $data);
+    }
+
+    public function getTicketById($idTicket){
+        $query = 'SELECT * FROM tickets WHERE idTicket = "'.$idTicket.'"';
+        return $this->connection->fetchAll($query);
     }
 
     public function findAll(): array
@@ -49,6 +66,27 @@ SQL;
 
         return $tickets;
     }
+
+    public function findAllInSell(): array
+    {
+        $query =<<<SQL
+SELECT * FROM tickets WHERE isAccepted = 0 ;
+SQL;
+
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+
+        $tickets = [];
+
+        while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+
+            $tickets[] = $this->hydrateFromRow($row);
+        }
+
+        return $tickets;
+    }
+
+
 
     private function hydrateFromRow(array $row): Ticket
     {

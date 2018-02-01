@@ -37,6 +37,11 @@ class UserAccount implements UserInterface
         return (string) $this->member->getEmail();
     }
 
+    public function getId(): string
+    {
+        return (string) $this->member->getId();
+    }
+
     public function eraseCredentials(): void
     {
         // nothing to do

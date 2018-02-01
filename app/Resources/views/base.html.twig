@@ -15,6 +15,7 @@
         <div class="container">
             <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link" href="{{ path('homepage') }}">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('list_all_tickets') }}">Voir tous les tickets proposés</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ path('submit_ticket') }}">Vendre un ticket</a></li>
                 {%  if not is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li><a class="nav-link" href="{{ path('member_sign_in') }}">Se connecter</a></li>
